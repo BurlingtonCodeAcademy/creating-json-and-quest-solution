@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Quest</title>
+</head>
+<body>
+    <div>
+        <p id="my-text"></p>
+    </div>
+    <form class="main-form" href="/">
+        <input onchange="changeStuff(event)" type="text" name="name" id="name" placeholder="Enter name">
+        <input onchange="changeStuff(event)" type="text" name="quest" id="quest" placeholder="Enter quest">
+        <input onchange="changeStuff(event)" type="text" name="color" id="color" placeholder="Enter color">
+        <button onclick="handleSubmit(event)" id="btn">Submit</button>
+    </form>
+    <script>
+        let name
+        let quest
+        let color
+        let myText = document.getElementById("my-text")
+        let div = document.getElementsByTagName("div")[0]
+
+        function changeStuff(event) {
+            event.preventDefault()
+            if (event.target.name == "name") {
+                name = event.target.value
+            } else if (event.target.name == "quest") {
+                quest = event.target.value
+            } else if (event.target.name == "color") {
+                color = event.target.value
+            }
+        }
+        
+        function handleSubmit(event) {
+            event.preventDefault()
+            fetch("http://localhost:4000/")
+            .then(res => res.json())
+            .then(d => {
+                if (d.name == name && d.quest == quest && d.favoriteColor == color) {
+                    myText.textContent = "Continue on your way"
+                    div.appendChild(myText)
+                } else {
+                    myText.textContent = "Passage denied sucka!!!!!!"
+                    div.appendChild(myText)
+                }
+            }) 
+        }
+    </script>
+</body>
+</html>
